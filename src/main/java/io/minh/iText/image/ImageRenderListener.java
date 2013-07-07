@@ -20,7 +20,7 @@ public class ImageRenderListener implements RenderListener {
     /**
      * The directory path to store images.
      */
-    protected String path = "";
+    protected String path;
 
     /**
      * Creates a RenderListener that will look for images.
@@ -57,12 +57,13 @@ public class ImageRenderListener implements RenderListener {
                 return;
             }
             filename = String.format(path, renderInfo.getRef().getNumber(), image.getFileType());
+            System.out.println("Writing image to file: " + filename);
             os = new FileOutputStream(filename);
             os.write(image.getImageAsBytes());
             os.flush();
             os.close();
         } catch (IOException e) {
-            Logger.getLogger(PDFImageExtractor.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ImageRenderListener.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

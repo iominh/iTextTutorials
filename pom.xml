@@ -21,6 +21,34 @@
             <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
-            
+
     </dependencies>
+    
+    <properties>
+        <!-- default for source PDF -->
+        <src>src/main/resources/354470main_aresIX_fs_may09.pdf</src>
+        <!-- default for destination PDF -->
+        <dest>target</dest>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Djava.library.path=${project.build.directory}/lib</argument>
+                        <argument>-classpath</argument>
+                        <classpath />
+                        <argument>io.minh.iText.image.ExtractImages</argument>
+                        <argument>${src}</argument>
+                        <argument>${dest}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
