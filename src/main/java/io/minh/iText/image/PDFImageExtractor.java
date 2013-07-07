@@ -8,6 +8,8 @@ import com.itextpdf.text.pdf.PdfStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,11 +30,13 @@ public class PDFImageExtractor {
                 if (pdfobj == null || !pdfobj.isStream()) {
                     continue;
                 }
+                String name = pdfobj.toString();
                 PdfStream stream = (PdfStream) pdfobj;
                 PdfObject pdfsubtype = stream.get(PdfName.SUBTYPE);
                 if (pdfsubtype != null && pdfsubtype.toString().equals(PdfName.IMAGE.toString())) {
                     byte[] img = PdfReader.getStreamBytesRaw((PRStream) stream);
-                    FileOutputStream out = new FileOutputStream(new File(file.getParentFile(), String.format("%1$05d", i) + ".jpg"));
+                    String fileName = String.format("%1$05d", i) + ".jpg";
+                    FileOutputStream out = new FileOutputStream(new File(file.getParentFile(), fileName));
                     out.write(img);
                     out.flush();
                     out.close();
@@ -40,6 +44,7 @@ public class PDFImageExtractor {
             }
 
         } catch (IOException ex) {
+            Logger.getLogger(PDFImageExtractor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
